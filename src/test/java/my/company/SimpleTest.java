@@ -14,8 +14,7 @@ import java.util.UUID;
 
 import static io.qameta.allure.Allure.parameter;
 import static io.qameta.allure.Allure.step;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author baev (Dmitry Baev)
@@ -33,7 +32,7 @@ public class SimpleTest {
     var objectUid = UUID.randomUUID().toString();
     parameter("objectUid", objectUid);
 
-    MyObjectForProcessing objectForProcessing = createObject(objectUid, country, myParam);
+    MyMessage objectForProcessing = createObject(objectUid, country, new MessageData("123"));
 
     step("step 1", (step) -> {
       if ("US".equals(country)) {
@@ -65,6 +64,10 @@ public class SimpleTest {
   public void simpleTestTwo() {
     step("step 1");
     step("step 2");
+    var actualValue = "Some string";
+    var expectedValue = "Another string";
+
+    assertEquals(expectedValue, actualValue, "myValue");
   }
 
   // *******************************
@@ -72,13 +75,13 @@ public class SimpleTest {
   // *******************************
 
   @Step("Prepare an object for sending")
-  private MyObjectForProcessing createObject(String objectUid, String country, String myParam){
-    return new MyObjectForProcessing(objectUid, country, myParam);
+  private MyMessage createObject(String objectUid, String country, MessageData data){
+    return new MyMessage(objectUid, country, data);
   }
 
   @Description("Step-specific description") // it doesn't work
   @Step("Get results from processor")
-  private String getResults(MyObjectForProcessing myObject) {
+  private String getResults(MyMessage myObject) {
     return "Object (objectUid: " + myObject.objectUid() + ") was processed";
   }
 }
