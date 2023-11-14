@@ -1,7 +1,6 @@
 package my.company;
 
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -68,6 +67,7 @@ public class CompareAssertionsTest {
     softly.assertThat(actual.data().dataId()).as("dataId").isEqualTo("Some String1");
     softly.assertAll();
   }
+
   @Test
   public void testAssertJAssertions3_extra() {
     var actual = new MyMessage("1111", "US", new MessageData("Some String"));
@@ -89,16 +89,12 @@ public class CompareAssertionsTest {
 
     SoftAssertions.assertSoftly(
         softly -> softly.assertThat(actual)
-                    .returns("11112", from(MyMessage::objectUid))
-                    .returns("US", from(MyMessage::country))
-                    .returns("Some String1", from(msg -> msg.data().dataId()))
+            .returns("11112", from(MyMessage::objectUid))
+            .returns("US", from(MyMessage::country))
+            .returns("Some String1", from(msg -> msg.data().dataId()))
     );
-
   }
 
-  /**
-   * Fail immediately on the first assertion
-   */
   @Test
   public void testAssertJAssertions5() {
     var actual = new MyMessage("1111", "US", new MessageData("Some String"));
@@ -110,5 +106,18 @@ public class CompareAssertionsTest {
         .hasFieldOrPropertyWithValue("country", "US")
         .hasFieldOrPropertyWithValue("data.dataId", "Some String1");
     softly.assertAll();
+  }
+
+  @Test
+  public void testAssertJAssertions6() {
+    var actual = new MyMessage("1111", "US", new MessageData("Some String"));
+
+    SoftAssertions.assertSoftly(
+        softly -> softly.assertThat(actual)
+            .isNotNull()
+            .hasFieldOrPropertyWithValue("objectUid", "11112")
+            .hasFieldOrPropertyWithValue("country", "US")
+            .hasFieldOrPropertyWithValue("data.dataId", "Some String1")
+    );
   }
 }
