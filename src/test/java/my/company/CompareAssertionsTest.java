@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.from;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -87,7 +88,7 @@ public class CompareAssertionsTest {
   public void testAssertJAssertions4() {
     var actual = new MyMessage("1111", "US", new MessageData("Some String"));
 
-    SoftAssertions.assertSoftly(
+    assertSoftly(
         softly -> softly.assertThat(actual)
             .returns("11112", from(MyMessage::objectUid))
             .returns("US", from(MyMessage::country))
@@ -112,7 +113,7 @@ public class CompareAssertionsTest {
   public void testAssertJAssertions6() {
     var actual = new MyMessage("1111", "US", new MessageData("Some String"));
 
-    SoftAssertions.assertSoftly(
+    assertSoftly(
         softly -> softly.assertThat(actual)
             .isNotNull()
             .hasFieldOrPropertyWithValue("objectUid", "11112")
