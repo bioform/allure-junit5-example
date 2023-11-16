@@ -9,19 +9,7 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CompareAssertionsTest {
-
-  @Test
-  public void testJUnitAssertions() {
-    var actual = new MyMessage("1111", "US", new MessageData("Some String"));
-
-    assertAll(
-        () -> assertEquals("11112", actual.objectUid(), "objectUid"),
-        () -> assertEquals("US", actual.country(), "country"),
-        () -> assertEquals("Some String1", actual.data().dataId(), "dataId")
-    );
-  }
-
+public class AssertJAssertionsTest {
   @Test
   public void testAssertJAssertions1() {
     var actual = new MyMessage("1111", "US", new MessageData("Some String"));
